@@ -2,42 +2,25 @@ function trackWater (num: number, unit: string) {
     if (unitText == "cups") {
         if (num < 8) {
             plantText.sayText("Drink more water!")
-            if (num <= 1) {
-                plantImage = list[0]
-                plantSlot.setImage(plantImage)
-            } else if (num <= 3) {
-                plantImage = list[1]
-                plantSlot.setImage(plantImage)
-            } else if (num <= 5) {
-                plantImage = list[2]
-                plantSlot.setImage(plantImage)
-            } else if (num <= 7) {
-                plantImage = list[3]
-                plantSlot.setImage(plantImage)
-            }
-        } else if (num >= 8) {
+        } else {
             plantText.sayText("You have finished your daily water intake!")
-            plantImage = list[4]
+        }
+        for (let index = 0; index <= num; index++) {
+            plantImage = list[index]
             plantSlot.setImage(plantImage)
+            pause(300)
         }
     } else {
         if (num < 2) {
             plantText.sayText("Drink more water!")
-            plantImage = list[num]
-            plantSlot.setImage(plantImage)
-        } else if (num >= 2) {
+        } else {
             plantText.sayText("You have finished your daily water intake!")
-            plantImage = list[4]
-            plantSlot.setImage(plantImage)
         }
-    }
-    for (let index = 0; index < 4; index++) {
-        plantSlot.y += -6
-        pause(200)
-    }
-    for (let index = 0; index < 4; index++) {
-        plantSlot.y += 6
-        pause(200)
+        for (let index = 0; index <= num; index++) {
+            plantImage = list[index]
+            plantSlot.setImage(plantImage)
+            pause(300)
+        }
     }
 }
 let plantImage: Image = null
@@ -169,10 +152,15 @@ scene.setBackgroundImage(img`
     `)
 game.showLongText("Grow your plant! Please insert your units of measurements (cups/quarts) and the amount that you have drank today.", DialogLayout.Center)
 list = [
+sprites.castle.rock2,
 sprites.skillmap.decoration12,
 sprites.swamp.swampTile3,
+sprites.skillmap.decoration1,
 sprites.skillmap.decoration13,
+sprites.castle.saplingOak,
+sprites.builtin.forestScenery1,
 sprites.duck.log1,
+sprites.castle.treeOak,
 sprites.skillmap.seasonalTree2
 ]
 plantSlot = sprites.create(img`
