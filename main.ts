@@ -1,29 +1,52 @@
+// Function that shows user how far along they are in daily water intake through visual of plant growth and alert
+function growPlant (num: number) {
+    // Loop allows for plant on screen to look like it is growing and to show stage in water intake
+    for (let index = 0; index <= num; index++) {
+        plantImage = list[index]
+        plantSlot.setImage(plantImage)
+        pause(300)
+    }
+}
 function trackWater (num: number, unit: string) {
+    // Unit conversion of daily intake
     if (unitText == "cups") {
+        // Shows visual of plant growing to see how far along towards daily water intake user is
+        growPlant(num)
+        // Alerts user to drink more water if intake is below recommended daily intake or if they have drank enough
         if (num < 8) {
             plantText.sayText("Drink more water!")
         } else {
             plantText.sayText("You have finished your daily water intake!")
         }
-        for (let index = 0; index <= num; index++) {
-            plantImage = list[index]
-            plantSlot.setImage(plantImage)
-            pause(300)
-        }
     } else {
+        // Alerts user to drink more water if intake is below recommended daily intake or if they have drank enough
         if (num < 2) {
+            // Reflects water intake with quart conversion and shows accurate progress in plant growth image
+            if (num == 0) {
+                growPlant(num)
+            } else if (num == 1) {
+                // Shows halfway progress in water intake
+                growPlant(5)
+            }
             plantText.sayText("Drink more water!")
         } else {
+            // Reflects water intake with quart conversion and shows accurate progress in plant growth image
+            if (num == 2) {
+                // Shows user that progress in water intake has been met with a grown tree
+                growPlant(8)
+            } else {
+                // Shows user that progress in water intake has been surpassed with a grown tree with flowers
+                growPlant(9)
+            }
             plantText.sayText("You have finished your daily water intake!")
-        }
-        for (let index = 0; index <= num; index++) {
-            plantImage = list[index]
-            plantSlot.setImage(plantImage)
-            pause(300)
         }
     }
 }
+/**
+ * Credit to MakeCode Gallery for spites and images used
+ */
 let plantImage: Image = null
+let functionNum = 0
 let unitText = ""
 let plantText: Sprite = null
 let plantSlot: Sprite = null
@@ -151,6 +174,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
 game.showLongText("Grow your plant! Please insert your units of measurements (cups/quarts) and the amount that you have drank today.", DialogLayout.Center)
+// Array of plant growth
 list = [
 sprites.castle.rock2,
 sprites.skillmap.decoration12,
@@ -201,5 +225,11 @@ plantText = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
 unitText = game.askForString("Cups or Quarts? (lowercase)", 6)
-let functionNum = game.askForNumber("How many cups of water did you drink today?", 1)
+// Properly displays where unit number of water should be asked in cups or quarts
+if (unitText == "cups") {
+    functionNum = game.askForNumber("How many cups of water did you drink today?", 1)
+} else {
+    functionNum = game.askForNumber("How many quarts of water did you drink today?", 1)
+}
+// Main function of tracking water intake with parameters of units and amount of water
 trackWater(functionNum, unitText)
